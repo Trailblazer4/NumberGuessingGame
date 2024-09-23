@@ -4,15 +4,22 @@ use colored::*;
 use std::cmp::Ordering;
 
 fn user_guess(guess: &mut String) -> i32 {
-    println!("{}", "Guess a number: ".bright_cyan());
+    loop {
+        println!("{}", "Guess a number: ".bright_cyan());
 
-    io::stdin()
-    .read_line(guess)
-    .expect("Failed to read line");
+        io::stdin()
+        .read_line(guess)
+        .expect("Failed to read line");
 
-    guess.trim()
-    .parse()
-    .expect("Failed to parse int from user guess")
+        match guess.trim().parse() {
+            Ok(num) => return num,
+            Err(_) => {
+                println!("{} {}{}", "please enter a".red(), "number".purple().italic(), "!".red());
+                guess.clear();
+                continue;
+            },
+        };
+    }
 }
 
 fn main() {
